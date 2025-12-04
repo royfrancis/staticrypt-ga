@@ -22,6 +22,7 @@ jobs:
           REGISTRY: ghcr.io
           ORG: royfrancis
           IMAGE: staticrypt:3.5.4
+          STATICRYPT_PASSWORD: ${{ secrets.STATICRYPT_PASSWORD }}
         run: |
           docker run --rm \
             -v ${{ github.workspace }}:/home/work \
