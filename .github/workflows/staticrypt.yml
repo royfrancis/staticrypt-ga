@@ -17,7 +17,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Encrypt docs example with StatiCrypt
+      - name: Encrypt with StatiCrypt
         env:
           REGISTRY: ghcr.io
           ORG: royfrancis
@@ -26,7 +26,7 @@ jobs:
           docker run --rm \
             -v ${{ github.workspace }}:/home/work \
             ${{ env.REGISTRY }}/${{ env.ORG }}/${{ env.IMAGE }} \
-            site -r \
+            site/* -r \
             --directory docs/ \
             --password ${{ secrets.STATICRYPT_PASSWORD }} \
             --config false
@@ -42,5 +42,6 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
 
 
