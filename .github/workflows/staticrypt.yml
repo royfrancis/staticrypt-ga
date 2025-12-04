@@ -5,6 +5,14 @@ on:
     branches:
       - main
 
+# adjust directory to encrypt and upload
+env:
+  DIR: docs
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
 permissions:
   contents: read
   pages: write
@@ -26,8 +34,9 @@ jobs:
           docker run --rm \
             -v ${{ github.workspace }}:/home/work \
             ${{ env.REGISTRY }}/${{ env.ORG }}/${{ env.IMAGE }} \
-            site/* -r \
-            --directory docs/ \
+            ${{ env.DIR }}/* \
+            --recursive \
+            --directory ${{ env.DIR }} \
             --password ${{ secrets.STATICRYPT_PASSWORD }} \
             --config false
 
@@ -37,7 +46,7 @@ jobs:
       - name: Upload docs artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: docs
+          path: ${{ env.DIR }}
 
       - name: Deploy to GitHub Pages
         id: deployment
