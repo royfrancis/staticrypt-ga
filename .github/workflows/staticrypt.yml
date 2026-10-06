@@ -33,6 +33,7 @@ jobs:
         run: |
           docker run --rm \
             -v ${{ github.workspace }}:/home/work \
+            --user $(id -u):$(id -g) \
             ${{ env.REGISTRY }}/${{ env.ORG }}/${{ env.IMAGE }} \
             ${{ env.DIR }}/* \
             --recursive \
